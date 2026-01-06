@@ -4,28 +4,55 @@
 
 Generate images using DALL-E, Imagen, or GPT-Image-1 through a unified interface with automatic fallback, cost tracking, and parallel generation support.
 
+This module provides both a **standalone library interface** and an **Amplifier Tool protocol interface**, making it usable in two ways:
+- **As a library**: Direct Python import for use in any application
+- **As an Amplifier tool**: Automated discovery and integration via tool protocol
+
 ---
 
 ## Installation
 
+### As a Library
+
+For standalone library usage (no Amplifier integration):
+
 ```bash
-pip install git+https://github.com/robotdad/amplifier-dev#subdirectory=amplifier-module-image-generation
+pip install git+https://github.com/robotdad/amplifier-module-image-generation
 ```
 
 Or add to your `pyproject.toml`:
 
 ```toml
-[tool.uv.sources]
-amplifier-module-image-generation = {
-    git = "https://github.com/robotdad/amplifier-dev",
-    subdirectory = "amplifier-module-image-generation",
-    branch = "main"
-}
+dependencies = [
+    "amplifier-module-image-generation @ git+https://github.com/robotdad/amplifier-module-image-generation"
+]
 ```
+
+### As an Amplifier Tool
+
+For use with Amplifier (includes tool protocol support):
+
+```bash
+pip install "git+https://github.com/robotdad/amplifier-module-image-generation[tool]"
+```
+
+Or add to your `pyproject.toml`:
+
+```toml
+dependencies = [
+    "amplifier-module-image-generation[tool] @ git+https://github.com/robotdad/amplifier-module-image-generation"
+]
+```
+
+The `[tool]` extra installs `amplifier-core` which is required for the tool protocol interface.
 
 ---
 
 ## Quick Start
+
+### As a Library (Direct Import)
+
+Use the `ImageGenerator` class directly in your Python code:
 
 ```python
 from pathlib import Path
@@ -45,6 +72,26 @@ if result.success:
     print(f"Saved to: {result.local_path}")
 ```
 
+### As an Amplifier Tool
+
+The tool is automatically discovered via entry points when installed:
+
+```python
+from amplifier_module_image_generation import ImageGenerationTool
+
+# Create tool instance
+tool = ImageGenerationTool()
+
+# Use via Tool protocol
+result = await tool.execute({
+    "operation": "generate",
+    "prompt": "A serene mountain landscape at sunset",
+    "output_path": "output/mountain.png"
+})
+
+print(result.output)  # ToolResult output
+```
+
 ---
 
 ## Features
@@ -52,17 +99,19 @@ if result.success:
 - **Multi-Provider Support**: DALL-E 3, Imagen 4, GPT-Image-1
 - **Automatic Fallback**: Tries other providers if preferred fails
 - **Cost Tracking**: Estimates and tracks generation costs
+- **Dual Interface**: Use as library or Amplifier tool
 - **Parallel Generation**: Create alternatives with multiple APIs simultaneously
 - **Availability Checking**: Validates API keys and connectivity
 - **Type Safety**: Full type hints and Pydantic models
+- **Entry Point Discovery**: Automatic registration via `amplifier.tool` entry point
 
 ---
 
 ## API Reference
 
-### ImageGenerator
+### ImageGenerator (Library Interface)
 
-Primary interface for image generation.
+Primary interface for direct library usage.
 
 ```python
 class ImageGenerator:
@@ -88,6 +137,70 @@ class ImageGenerator:
         Raises:
             ImageGenerationError: When no providers available or all fail
         """
+```
+
+### ImageGenerationTool (Tool Protocol)
+
+Amplifier Tool protocol wrapper.
+
+```python
+class ImageGenerationTool:
+    @property
+    def name(self) -> str:
+        """Tool name for invocation."""
+        return "image-generation"
+    
+    @property
+    def description(self) -> str:
+        """Human-readable tool description."""
+        
+    async def execute(self, input: dict[str, Any]) -> ToolResult:
+        """Execute tool operation.
+        
+        Args:
+            input: Operation parameters with required 'operation' field
+            
+        Returns:
+            ToolResult with operation outcome
+        """
+```
+
+#### Tool Operations
+
+The tool protocol exposes three operations:
+
+**1. Generate Image**
+
+```python
+result = await tool.execute({
+    "operation": "generate",
+    "prompt": "A minimalist technical diagram",
+    "output_path": "diagrams/architecture.png",
+    "preferred_api": "imagen",  # Optional: "imagen", "dalle", "gptimage", "openai", "google"
+    "params": {                  # Optional: provider-specific parameters
+        "quality": "hd",
+        "size": "1024x1024"
+    }
+})
+```
+
+**2. Check Availability**
+
+```python
+result = await tool.execute({
+    "operation": "check_availability",
+    "provider": "imagen"  # "imagen", "dalle", "gptimage", "openai", "google"
+})
+```
+
+**3. Get Cost Estimate**
+
+```python
+result = await tool.execute({
+    "operation": "get_cost_estimate",
+    "provider": "dalle",
+    "params": {"quality": "hd"}
+})
 ```
 
 ### ImageResult
@@ -210,11 +323,25 @@ The module automatically detects which APIs are configured and uses them.
 
 ---
 
-## Integration with Amplifier
+## Entry Point Integration
 
-### Capability Registry Pattern
+The tool is automatically discoverable via the `amplifier.tool` entry point:
 
-When used in Amplifier apps, register with coordinator:
+```toml
+[project.entry-points."amplifier.tool"]
+image-generation = "amplifier_module_image_generation:ImageGenerationTool"
+```
+
+This enables Amplifier to automatically:
+1. Discover the tool at runtime
+2. Load and instantiate it
+3. Make it available to agents
+
+No manual registration required!
+
+### Capability Registry Pattern (Optional)
+
+For advanced use cases, you can also register with a coordinator:
 
 ```python
 # In your module initialization

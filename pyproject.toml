@@ -13,7 +13,13 @@ dependencies = [
     "pydantic>=2.0.0",
 ]
 
+[project.entry-points."amplifier.tool"]
+image-generation = "amplifier_module_image_generation:ImageGenerationTool"
+
 [project.optional-dependencies]
+tool = [
+    "amplifier-core>=1.0.0",
+]
 dev = [
     "pytest>=7.0.0",
     "pytest-asyncio>=0.21.0",
