@@ -59,7 +59,7 @@ class GeneratedImage:
     """
 
     prompt_id: str
-    api: Literal["imagen", "dalle", "gptimage"]
+    api: Literal["nano-banana-pro", "imagen", "dalle", "gptimage"]
     url: str
     local_path: Path
     generation_params: dict
