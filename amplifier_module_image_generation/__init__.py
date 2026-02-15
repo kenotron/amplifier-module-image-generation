@@ -31,4 +31,20 @@ __all__ = [
     "ImageResult",
     "ImageGenerationError",
     "ImageGenerationTool",
+    "mount",
 ]
+
+
+def mount(config: dict | None = None) -> ImageGenerationTool:
+    """Mount the image generation tool for Amplifier.
+    
+    This function is called by Amplifier's module loader to instantiate
+    the tool when loaded via settings.yaml module configuration.
+    
+    Args:
+        config: Optional configuration dictionary (currently unused)
+        
+    Returns:
+        ImageGenerationTool instance ready for use
+    """
+    return ImageGenerationTool()
