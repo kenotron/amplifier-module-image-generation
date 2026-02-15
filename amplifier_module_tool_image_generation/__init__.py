@@ -3,7 +3,7 @@
 This module provides both a standalone library interface and an Amplifier Tool protocol interface.
 
 Library Usage (Direct Import):
-    >>> from amplifier_module_image_generation import ImageGenerator
+    >>> from amplifier_module_tool_image_generation import ImageGenerator
     >>> generator = ImageGenerator()
     >>> result = await generator.generate(
     ...     prompt="A serene landscape",
@@ -11,7 +11,7 @@ Library Usage (Direct Import):
     ... )
 
 Tool Usage (Via Amplifier):
-    >>> from amplifier_module_image_generation import ImageGenerationTool
+    >>> from amplifier_module_tool_image_generation import ImageGenerationTool
     >>> tool = ImageGenerationTool()
     >>> result = await tool.execute({
     ...     "operation": "generate",

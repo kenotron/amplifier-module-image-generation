@@ -2,9 +2,9 @@
 
 from pathlib import Path
 
-from amplifier_module_image_generation.models import GeneratedImage
-from amplifier_module_image_generation.models import ImageAlternatives
-from amplifier_module_image_generation.models import ImageResult
+from amplifier_module_tool_image_generation.models import GeneratedImage
+from amplifier_module_tool_image_generation.models import ImageAlternatives
+from amplifier_module_tool_image_generation.models import ImageResult
 
 
 def test_image_result_success():

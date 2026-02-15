@@ -6,8 +6,8 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 
 import pytest
-from amplifier_module_image_generation.generator import ImageGenerator
-from amplifier_module_image_generation.models import ImageResult
+from amplifier_module_tool_image_generation.generator import ImageGenerator
+from amplifier_module_tool_image_generation.models import ImageResult
 
 
 @pytest.fixture

@@ -1,5 +1,5 @@
 [project]
-name = "amplifier-module-image-generation"
+name = "amplifier-module-tool-image-generation"
 version = "0.1.0"
 description = "Multi-provider AI image generation module for Amplifier"
 authors = [
@@ -13,8 +13,8 @@ dependencies = [
     "pydantic>=2.0.0",
 ]
 
-[project.entry-points."amplifier.tool"]
-image-generation = "amplifier_module_image_generation:ImageGenerationTool"
+[project.entry-points."amplifier.modules"]
+tool-image-generation = "amplifier_module_tool_image_generation:mount"
 
 [project.optional-dependencies]
 tool = [
@@ -37,14 +37,14 @@ dev = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["amplifier_module_image_generation"]
+packages = ["amplifier_module_tool_image_generation"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
 
 [tool.pyright]
-include = ["amplifier_module_image_generation", "tests"]
+include = ["amplifier_module_tool_image_generation", "tests"]
 exclude = [".venv", "__pycache__", "*.egg-info"]
 pythonVersion = "3.11"
 typeCheckingMode = "basic"

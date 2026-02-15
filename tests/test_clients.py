@@ -6,9 +6,9 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 
 import pytest
-from amplifier_module_image_generation.clients import DalleClient
-from amplifier_module_image_generation.clients import GptImageClient
-from amplifier_module_image_generation.clients import ImagenClient
+from amplifier_module_tool_image_generation.clients import DalleClient
+from amplifier_module_tool_image_generation.clients import GptImageClient
+from amplifier_module_tool_image_generation.clients import ImagenClient
 
 
 @pytest.fixture

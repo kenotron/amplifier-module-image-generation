@@ -47,7 +47,7 @@ class ImageGenerationTool:
         ... })
         
     Example (library usage):
-        >>> from amplifier_module_image_generation import ImageGenerator
+        >>> from amplifier_module_tool_image_generation import ImageGenerator
         >>> generator = ImageGenerator()
         >>> result = await generator.generate(prompt, output_path)
     """

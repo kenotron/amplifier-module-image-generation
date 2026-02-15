@@ -4,7 +4,7 @@ import pytest
 from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from amplifier_module_image_generation import ImageGenerationTool, ImageResult
+from amplifier_module_tool_image_generation import ImageGenerationTool, ImageResult
 from amplifier_core import ToolResult
 
 
@@ -390,7 +390,7 @@ class TestLibraryBackwardCompatibility:
     @pytest.mark.asyncio
     async def test_library_import(self):
         """Test that ImageGenerator can still be imported directly."""
-        from amplifier_module_image_generation import ImageGenerator
+        from amplifier_module_tool_image_generation import ImageGenerator
         
         generator = ImageGenerator()
         assert generator is not None
@@ -398,6 +398,6 @@ class TestLibraryBackwardCompatibility:
     @pytest.mark.asyncio
     async def test_tool_wraps_generator(self, tool):
         """Test that tool uses ImageGenerator internally."""
-        from amplifier_module_image_generation import ImageGenerator
+        from amplifier_module_tool_image_generation import ImageGenerator
         
         assert isinstance(tool._generator, ImageGenerator)
