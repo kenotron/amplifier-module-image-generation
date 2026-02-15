@@ -35,13 +35,14 @@ __all__ = [
 ]
 
 
-def mount(config: dict | None = None) -> ImageGenerationTool:
+def mount(coordinator, config: dict | None = None) -> ImageGenerationTool:
     """Mount the image generation tool for Amplifier.
     
     This function is called by Amplifier's module loader to instantiate
     the tool when loaded via settings.yaml module configuration.
     
     Args:
+        coordinator: The Amplifier coordinator instance
         config: Optional configuration dictionary (currently unused)
         
     Returns:
