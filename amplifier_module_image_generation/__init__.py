@@ -35,7 +35,7 @@ __all__ = [
 ]
 
 
-def mount(coordinator, config: dict | None = None) -> ImageGenerationTool:
+async def mount(coordinator, config: dict | None = None) -> ImageGenerationTool:
     """Mount the image generation tool for Amplifier.
     
     This function is called by Amplifier's module loader to instantiate
