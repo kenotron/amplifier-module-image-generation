@@ -37,14 +37,14 @@ dev = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/amplifier_module_image_generation"]
+packages = ["amplifier_module_image_generation"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
 
 [tool.pyright]
-include = ["src", "tests"]
+include = ["amplifier_module_image_generation", "tests"]
 exclude = [".venv", "__pycache__", "*.egg-info"]
 pythonVersion = "3.11"
 typeCheckingMode = "basic"
